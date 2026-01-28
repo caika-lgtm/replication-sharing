@@ -1,0 +1,20 @@
+services:
+  mysql-demo:
+    image: mysql:8.0
+    container_name: mysql-demo
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    command: >
+      --server-id=1
+      --log-bin=mysql-bin
+      --binlog-row-image=FULL
+      --gtid-mode=ON
+      --enforce-gtid-consistency=ON
+      --innodb_flush_log_at_trx_commit=1
+      --sync_binlog=1
+      --innodb_redo_log_archive_dirs=demo:/var/lib/mysql-redo-archive
+    volumes:
+      - ./data1:/var/lib/mysql
+      - ./redo-archive1:/var/lib/mysql-redo-archive
+    ports: ["33061:3306"]
+
